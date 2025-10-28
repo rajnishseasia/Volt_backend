@@ -39,7 +39,7 @@ async function main() {
   await mintTx.wait();
   console.log("Minted 1,000,000 USDT");
 
-  console.log("\n✅ DEPLOYMENT SUCCESSFUL!");
+  console.log("DEPLOYMENT SUCCESSFUL!");
   console.log("USDT        :", usdt.address);
   console.log("VoltToken   :", volt.address);
   console.log("VoltPlatform:", platform.address);

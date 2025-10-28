@@ -8,11 +8,12 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 error TransfersDisabled();
 
-contract VoltToken is Initializable, ERC20Upgradeable, UUPSUpgradeable, OwnableUpgradeable {
+contract VoltToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     address public platform;
 
     event PlatformSet(address indexed platform);
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
