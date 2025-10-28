@@ -4,17 +4,23 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 error TransfersDisabled();
 
-contract VoltToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
+contract VoltToken is Initializable, ERC20Upgradeable, UUPSUpgradeable, OwnableUpgradeable {
     address public platform;
 
     event PlatformSet(address indexed platform);
 
+    constructor() {
+        _disableInitializers();
+    }
+
     function initialize(address initialOwner) public initializer {
         __ERC20_init("Volt Token", "VOLT");
         __Ownable_init(initialOwner);
+        __UUPSUpgradeable_init();
     }
 
     function setPlatform(address _platform) external onlyOwner {
@@ -41,4 +47,10 @@ contract VoltToken is Initializable, ERC20Upgradeable, OwnableUpgradeable {
         }
         super._update(from, to, value);
     }
+
+    function _authorizeUpgrade(address newImplementation)
+        internal
+        override
+        onlyOwner
+    {}
 }
