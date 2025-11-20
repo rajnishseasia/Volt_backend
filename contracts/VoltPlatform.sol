@@ -9,8 +9,6 @@ import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol
 import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@openzeppelin/contracts-upgradeable/utils/cryptography/EIP712Upgradeable.sol";
 
 interface IVoltToken {
     function setPlatform(address platform_) external;
@@ -23,21 +21,20 @@ contract VoltPlatform is
     UUPSUpgradeable,
     Ownable2StepUpgradeable,
     ReentrancyGuardUpgradeable,
-    PausableUpgradeable,
-    EIP712Upgradeable
+    PausableUpgradeable
 {
     using SafeERC20 for IERC20;
 
-    uint256 public constant ONE_DAY   = 1 days;
-    uint256 public constant YEAR_DAYS = 365;
-    uint256 public constant BP        = 10_000;
-    uint256 public constant FIVE_YEARS_DAYS = 5 * 365;
-    uint256 public constant BONUS_CAP_USDT = 10_000 * 1e6;
-    uint256 public constant ONE_USDT = 1e6;
+    uint256 public constant ONE_DAY          = 1 days;
+    uint256 public constant YEAR_DAYS        = 365;
+    uint256 public constant BP               = 10_000;
+    uint256 public constant FIVE_YEARS_DAYS  = 5 * 365;
+    uint256 public constant BONUS_CAP_USDT   = 10_000 * 1e6;
+    uint256 public constant ONE_USDT         = 1e6;
 
-    uint256 public constant TIER1_MIN = 50 * 1e6;   
-    uint256 public constant TIER1_MAX = 100 * 1e6;   
-    uint256 public constant TIER2_MIN = 101 * 1e6;   
+    uint256 public constant TIER1_MIN = 50 * 1e6;
+    uint256 public constant TIER1_MAX = 100 * 1e6;
+    uint256 public constant TIER2_MIN = 101 * 1e6;
     uint256 public constant TIER2_MAX = 500 * 1e6;
 
     IERC20     public usdt;
@@ -48,9 +45,9 @@ contract VoltPlatform is
     uint256 public feeLt500Bp;
     uint256 public feeGte500Bp;
 
-    mapping(address => bool) public whitelisted;
-    mapping(address => address) public referrerOf;
-    mapping(address => bool) public hasDeposited;
+    mapping(address => bool)     public whitelisted;
+    mapping(address => address)  public referrerOf;
+    mapping(address => bool)     public hasDeposited;
 
     uint256[7] public refBp;
 
@@ -63,31 +60,6 @@ contract VoltPlatform is
     mapping(address => uint256) public lastAccrualTime;
     mapping(address => bool)    public hasReceivedFirstDepositBonus;
 
-    mapping(address => uint256) public referralNonce;
-
-    error InvalidAddress();
-    error NotWhitelisted();
-    error AlreadyWhitelisted();
-    error AmountIsZero();
-    error BelowMinWithdraw();
-    error ActiveLocksPresent();
-    error InsufficientLiquidity();
-    error NotVested();
-    error InvalidAmount();
-    error InvalidDuration();
-    error EmptyArray();
-    error InvalidReferrer();
-    error ReferralCycle();
-    error AlreadyReferred();
-    error NoBonusToClaim();
-    error BonusStillLocked();
-    error InvalidSignature();
-
-    modifier onlyWhitelisted() {
-        if (!whitelisted[msg.sender]) revert NotWhitelisted();
-        _;
-    }
-
     struct Lock {
         uint256 amount;
         uint256 startTime;
@@ -99,7 +71,27 @@ contract VoltPlatform is
     }
     mapping(address => Lock[]) public locks;
 
-    event Whitelisted(address indexed user);
+    error InvalidAddress();
+    error NotWhitelisted();
+    error AlreadyWhitelisted();
+    error AmountIsZero();
+    error BelowMinWithdraw();
+    error ActiveLocksPresent();
+    error InsufficientLiquidity();
+    error NotVested();
+    error InvalidAmount();
+    error InsufficientAllowance();
+    error InvalidDuration();
+    error EmptyArray();
+    error InvalidReferrer();
+    error ReferralCycle();
+    error AlreadyReferred();
+    error NoBonusToClaim();
+    error BonusStillLocked();
+    error InvalidArrayLength();
+
+
+    event WhitelistedWithReferral(address indexed referee, address indexed referrer);
     event BulkWhitelisted(uint256 count);
     event Referred(address indexed referrer, address indexed referee, uint256 depositAmount);
     event ReferralBonusPaid(address indexed to, uint256 level, uint256 amount);
@@ -116,8 +108,6 @@ contract VoltPlatform is
     event AdminWithdrawUSDT(uint256 amount);
     event ParamsUpdated();
 
-    bytes32 private constant _REFERRAL_TYPEHASH = keccak256("Referral(address referee,uint256 nonce)");
-
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -129,7 +119,6 @@ contract VoltPlatform is
         __ReentrancyGuard_init();
         __Pausable_init();
         __UUPSUpgradeable_init();
-        __EIP712_init("VoltPlatform", "1");
 
         if (usdt_ == address(0) || voltToken_ == address(0)) revert InvalidAddress();
         usdt = IERC20(usdt_);
@@ -147,64 +136,72 @@ contract VoltPlatform is
         hasDeposited[owner_] = true;
         lastAccrualTime[owner_] = block.timestamp;
 
-        emit Whitelisted(owner_);
+        emit WhitelistedWithReferral(owner_, owner_);
     }
 
-    function addToWhitelist(address[] calldata users) external onlyOwner {
-        if (users.length == 0) revert EmptyArray();
+    function _requireWhitelisted() internal view {
+        if (!whitelisted[msg.sender]) revert NotWhitelisted();
+    }
+
+
+    function addToWhitelistWithReferral(
+        address[] calldata referees,
+        address[] calldata referrers
+    ) external onlyOwner {
+        if (referees.length == 0 || referees.length != referrers.length)
+            revert InvalidArrayLength();
+
         uint256 count = 0;
-        for (uint256 i = 0; i < users.length; ++i) {
-            address user = users[i];
-            if (user == address(0) || whitelisted[user]) continue;
-            whitelisted[user] = true;
-            lastAccrualTime[user] = block.timestamp;
-            emit Whitelisted(user);
+
+        for (uint256 i = 0; i < referees.length; i++) {
+            address referee = referees[i];
+            address referrer = referrers[i];
+
+            if (referee == address(0)) revert InvalidReferrer();
+
+            if (whitelisted[referee]) revert AlreadyReferred();
+
+            if (referrer != address(0)) {
+                if (referrer == referee) revert InvalidReferrer();
+
+                if (!whitelisted[referrer] || !hasDeposited[referrer])
+                    revert InvalidReferrer();
+
+                if (referrerOf[referee] != address(0))
+                    revert AlreadyReferred();
+
+                address current = referrer;
+                for (uint256 j = 0; j < 7; j++) {
+                    if (current == address(0)) break;
+                    if (current == referee) revert ReferralCycle();
+                    current = referrerOf[current];
+                }
+
+                referrerOf[referee] = referrer;
+            }
+
+            whitelisted[referee] = true;
+            lastAccrualTime[referee] = block.timestamp;
+
+            emit WhitelistedWithReferral(referee, referrer);
             count++;
         }
+
         if (count > 0) emit BulkWhitelisted(count);
     }
 
-    function depositUSDT(
-        uint256 amount,
-        address referrer,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    ) external nonReentrant whenNotPaused onlyWhitelisted {
+    function depositUSDT(uint256 amount) external nonReentrant whenNotPaused {
+        _requireWhitelisted();                   
         if (amount == 0) revert AmountIsZero();
 
+        uint256 allowance = usdt.allowance(msg.sender, address(this));
+        if (allowance < amount) revert InsufficientAllowance();
+
         bool isFirstDeposit = !hasDeposited[msg.sender];
-        address finalReferrer = address(0);
-
-        if (isFirstDeposit && referrer != address(0)) {
-            if (referrer == msg.sender) revert InvalidReferrer();
-
-            bytes32 structHash = keccak256(abi.encode(
-                _REFERRAL_TYPEHASH,
-                msg.sender,
-                referralNonce[msg.sender]
-            ));
-            bytes32 hash = _hashTypedDataV4(structHash);
-            address signer = ECDSA.recover(hash, v, r, s);
-
-            if (signer != referrer) revert InvalidSignature();
-            if (!whitelisted[referrer] || !hasDeposited[referrer]) revert InvalidReferrer();
-            if (referrerOf[msg.sender] != address(0)) revert AlreadyReferred();
-
-            address current = referrer;
-            for (uint256 i = 0; i < 7; ++i) {
-                if (current == address(0)) break;
-                if (current == msg.sender) revert ReferralCycle();
-                current = referrerOf[current];
-            }
-
-            referralNonce[msg.sender]++;
-            referrerOf[msg.sender] = referrer;
-            finalReferrer = referrer;
-            emit Referred(referrer, msg.sender, amount);
-        }
+        address finalReferrer = referrerOf[msg.sender];
 
         usdt.safeTransferFrom(msg.sender, address(this), amount);
+        
         volt.mint(msg.sender, amount);
         totalVoltMinted += amount;
 
@@ -228,21 +225,27 @@ contract VoltPlatform is
 
         if (isFirstDeposit) {
             hasDeposited[msg.sender] = true;
-            if (finalReferrer != address(0)) {
+
+            if (finalReferrer != address(0) && hasDeposited[finalReferrer]) {
                 _payReferralBonus(msg.sender, amount);
+                emit Referred(finalReferrer, msg.sender, amount);
             }
         }
 
         emit Deposited(msg.sender, amount, amount, finalReferrer);
     }
 
-    function lock(uint256 amount, uint256 durationDays) external nonReentrant whenNotPaused onlyWhitelisted {
+    function lock(uint256 amount, uint256 durationDays) external nonReentrant whenNotPaused {
+        _requireWhitelisted();                    
         if (amount == 0) revert AmountIsZero();
         if (!(
-            durationDays == 45 || durationDays == 90 || 
-            durationDays == 180 || durationDays == 365 || 
+            durationDays == 45 || durationDays == 90 ||
+            durationDays == 180 || durationDays == 365 ||
             durationDays == 1095
         )) revert InvalidDuration();
+
+        uint256 userBalance = balanceOfVolt(msg.sender);
+        if (userBalance < amount) revert InvalidAmount();
 
         uint256 multBp = durationDays == 45   ? 11000 :
                         durationDays == 90    ? 12000 :
@@ -272,29 +275,8 @@ contract VoltPlatform is
         emit Locked(msg.sender, amount, durationDays, bonusAtUnlock);
     }
 
-        function _payReferralBonus(address user, uint256 depositAmount) internal {
-        address current = referrerOf[user];
-        for (uint256 level = 0; level < 7 && current != address(0); ++level) {
-            if (!hasDeposited[current]) break;
-            uint256 rewardBp = refBp[level];
-            if (rewardBp == 0) break;
-            uint256 reward = (depositAmount * rewardBp) / BP;
-            if (reward == 0) break;
-
-            totalBonusOutstanding += reward;
-            bonusBalance[current] += reward;
-            if (bonusVestingEnd[current] == 0 || bonusVestingEnd[current] < block.timestamp + FIVE_YEARS_DAYS * ONE_DAY) {
-                bonusVestingEnd[current] = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
-            }
-
-            emit ReferralBonusPaid(current, level + 1, reward);
-            emit BonusGranted(current, reward, bonusVestingEnd[current]);
-
-            current = referrerOf[current];
-        }
-    }
-
-    function unlock(uint256 lockIndex) external nonReentrant whenNotPaused onlyWhitelisted {
+    function unlock(uint256 lockIndex) external nonReentrant whenNotPaused {
+        _requireWhitelisted();                    
         if (lockIndex >= locks[msg.sender].length) revert InvalidAmount();
         Lock storage L = locks[msg.sender][lockIndex];
         if (!L.active) revert InvalidAmount();
@@ -306,6 +288,90 @@ contract VoltPlatform is
         L.active = false;
 
         emit Unlocked(msg.sender, release, L.bonusAtUnlock);
+    }
+
+    function claimInterest() external nonReentrant whenNotPaused {
+        _requireWhitelisted();                     
+        uint256 interest = calculateAccruedInterest(msg.sender);
+        if (interest == 0) revert AmountIsZero();
+        lastAccrualTime[msg.sender] = block.timestamp;
+        volt.mint(msg.sender, interest);
+        totalVoltMinted += interest;
+        emit InterestClaimed(msg.sender, interest);
+    }
+
+    function claimAllVestedBonus() external nonReentrant whenNotPaused {
+        _requireWhitelisted();                    
+        if (bonusVestingEnd[msg.sender] == 0 || block.timestamp < bonusVestingEnd[msg.sender])
+            revert BonusStillLocked();
+        uint256 amount = bonusBalance[msg.sender];
+        if (amount == 0) revert NoBonusToClaim();
+
+        bonusBalance[msg.sender] = 0;
+        bonusVestingEnd[msg.sender] = 0;
+        totalBonusOutstanding -= amount;
+        volt.mint(msg.sender, amount);
+        totalVoltMinted += amount;
+
+        emit BonusClaimed(msg.sender, amount);
+    }
+
+    function withdrawUSDT(uint256 voltAmount, bool fullExit) external nonReentrant whenNotPaused {
+        _requireWhitelisted();                     
+        if (voltAmount < minWithdrawUSDT) revert BelowMinWithdraw();
+        if (voltAmount == 0) revert AmountIsZero();
+        if (fullExit && getLockedAmount(msg.sender) > 0) revert ActiveLocksPresent();
+
+        uint256 userBalance = balanceOfVolt(msg.sender);
+        if (userBalance < voltAmount) revert InvalidAmount();
+
+        uint256 feeBp = voltAmount < 500 * ONE_USDT ? feeLt500Bp : feeGte500Bp;
+        uint256 fee   = (voltAmount * feeBp) / BP;
+        uint256 net   = voltAmount - fee;
+
+        if (usdt.balanceOf(address(this)) < net) revert InsufficientLiquidity();
+
+        volt.burn(msg.sender, voltAmount);
+        totalVoltBurned += voltAmount;
+        usdt.safeTransfer(msg.sender, net);
+
+        if (fullExit && bonusBalance[msg.sender] > 0) {
+            totalBonusOutstanding -= bonusBalance[msg.sender];
+            bonusBalance[msg.sender] = 0;
+            bonusVestingEnd[msg.sender] = 0;
+        }
+
+        emit Withdrawn(msg.sender, voltAmount, net, feeBp, fullExit);
+    }
+
+    function _payReferralBonus(address user, uint256 depositAmount) internal {
+        address current = referrerOf[user];
+        uint256 newVestingEnd = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
+        
+        for (uint256 level = 0; level < 7 && current != address(0); ++level) {
+
+            if (current == user) break;
+            
+            if (!hasDeposited[current]) break;
+            
+            uint256 rewardBp = refBp[level];
+            if (rewardBp == 0) break;
+            
+            uint256 reward = (depositAmount * rewardBp) / BP;
+            if (reward == 0) break;
+
+            totalBonusOutstanding += reward;
+            bonusBalance[current] += reward;
+            
+            if (bonusVestingEnd[current] == 0 || bonusVestingEnd[current] < newVestingEnd) {
+                bonusVestingEnd[current] = newVestingEnd;
+            }
+
+            emit ReferralBonusPaid(current, level + 1, reward);
+            emit BonusGranted(current, reward, bonusVestingEnd[current]);
+
+            current = referrerOf[current];
+        }
     }
 
     function getLockedAmount(address user) public view returns (uint256 total) {
@@ -327,16 +393,16 @@ contract VoltPlatform is
         uint256 nowTs = block.timestamp;
         uint256 interest = 0;
 
+        uint256 lat = lastAccrualTime[user] == 0 ? block.timestamp : lastAccrualTime[user];
+
         uint256 availableVolt = balanceOfVolt(user);
         if (availableVolt > 0 && baseApyBp > 0) {
-            uint256 lat = lastAccrualTime[user] == 0 ? block.timestamp : lastAccrualTime[user];
             uint256 dt = nowTs > lat ? nowTs - lat : 0;
             interest += (availableVolt * baseApyBp * dt) / (BP * YEAR_DAYS * ONE_DAY);
         }
 
         uint256 bonus = bonusBalance[user];
         if (bonus > 0 && baseApyBp > 0) {
-            uint256 lat = lastAccrualTime[user] == 0 ? block.timestamp : lastAccrualTime[user];
             uint256 dt = nowTs > lat ? nowTs - lat : 0;
             interest += (bonus * baseApyBp * dt) / (BP * YEAR_DAYS * ONE_DAY);
         }
@@ -345,86 +411,44 @@ contract VoltPlatform is
         for (uint256 i = 0; i < arr.length; ) {
             Lock storage L = arr[i];
             if (!L.active || L.aprBp == 0) { unchecked { ++i; } continue; }
-            uint256 elapsed = nowTs < L.startTime + L.durationDays * ONE_DAY 
-                ? nowTs - L.startTime 
-                : L.durationDays * ONE_DAY;
+
+            uint256 interestStart = lat > L.startTime ? lat : L.startTime;
+            uint256 lockEndTime = L.startTime + L.durationDays * ONE_DAY;
+            uint256 elapsed = nowTs < lockEndTime
+                ? (nowTs > interestStart ? nowTs - interestStart : 0)
+                : (lockEndTime > interestStart ? lockEndTime - interestStart : 0);
             interest += (L.amount * L.aprBp * elapsed) / (BP * YEAR_DAYS * ONE_DAY);
             unchecked { ++i; }
         }
         return interest;
     }
 
-    function claimInterest() external nonReentrant whenNotPaused onlyWhitelisted {
-        uint256 interest = calculateAccruedInterest(msg.sender);
-        if (interest == 0) revert AmountIsZero();
-        lastAccrualTime[msg.sender] = block.timestamp;
-        volt.mint(msg.sender, interest);
-        totalVoltMinted += interest;
-        emit InterestClaimed(msg.sender, interest);
+    function canWithdrawBonus(address user) public view returns (bool) {
+        return bonusBalance[user] > 0 &&
+               bonusVestingEnd[user] > 0 &&
+               block.timestamp >= bonusVestingEnd[user];
     }
 
-    function claimAllVestedBonus() external nonReentrant whenNotPaused onlyWhitelisted {
-        if (bonusVestingEnd[msg.sender] == 0 || block.timestamp < bonusVestingEnd[msg.sender])
-            revert BonusStillLocked();
-        uint256 amount = bonusBalance[msg.sender];
-        if (amount == 0) revert NoBonusToClaim();
-
-        bonusBalance[msg.sender] = 0;
-        bonusVestingEnd[msg.sender] = 0;
-        totalBonusOutstanding -= amount;
-        volt.mint(msg.sender, amount);
-        totalVoltMinted += amount;
-
-        emit BonusClaimed(msg.sender, amount);
-    }
-
-    function adminClaimBonusForUser(address user) external onlyOwner {
-        uint256 amount = bonusBalance[user];
-        if (amount == 0) revert NoBonusToClaim();
-
-        bonusBalance[user] = 0;
-        bonusVestingEnd[user] = 0;
-        totalBonusOutstanding -= amount;
-        volt.mint(user, amount);
-        totalVoltMinted += amount;
-
-        emit AdminBonusClaimed(user, amount);
-    }
-
-    function adminTransferBonus(address from, address to, uint256 amount) external onlyOwner {
-        if (from == address(0) || to == address(0)) revert InvalidAddress();
-        if (bonusBalance[from] < amount) revert InvalidAmount();
-
-        bonusBalance[from] -= amount;
-        bonusBalance[to] += amount;
-        if (bonusVestingEnd[to] == 0) bonusVestingEnd[to] = bonusVestingEnd[from];
-        if (bonusBalance[from] == 0) bonusVestingEnd[from] = 0;
-
-        emit AdminBonusTransferred(from, to, amount);
-    }
-
-    function withdrawUSDT(uint256 voltAmount, bool fullExit) external nonReentrant whenNotPaused onlyWhitelisted {
-        if (voltAmount < minWithdrawUSDT) revert BelowMinWithdraw();
-        if (voltAmount == 0) revert AmountIsZero();
-        if (fullExit && getLockedAmount(msg.sender) > 0) revert ActiveLocksPresent();
-
-        uint256 feeBp = voltAmount < 500 * ONE_USDT ? feeLt500Bp : feeGte500Bp;
-        uint256 fee   = (voltAmount * feeBp) / BP;
-        uint256 net   = voltAmount - fee;
-
-        if (usdt.balanceOf(address(this)) < net) revert InsufficientLiquidity();
-
-        volt.burn(msg.sender, voltAmount);
-        totalVoltBurned += voltAmount;
-        usdt.safeTransfer(msg.sender, net);
-
-        if (fullExit && bonusBalance[msg.sender] > 0) {
-            totalBonusOutstanding -= bonusBalance[msg.sender];
-            bonusBalance[msg.sender] = 0;
-            bonusVestingEnd[msg.sender] = 0;
-        }
-
-        emit Withdrawn(msg.sender, voltAmount, net, feeBp, fullExit);
+    function getUserOverview(address user) external view returns (
+        bool isWhitelisted,
+        address referrer,
+        uint256 availableVolt,
+        uint256 lockedVolt,
+        uint256 bonusBal,
+        uint256 bonusEnd,
+        uint256 accruedInterest,
+        bool deposited
+    ) {
+        return (
+            whitelisted[user],
+            referrerOf[user],
+            balanceOfVolt(user),
+            getLockedAmount(user),
+            bonusBalance[user],
+            bonusVestingEnd[user],
+            calculateAccruedInterest(user),
+            hasDeposited[user]
+        );
     }
 
     function updateReferralRewards(uint256[7] memory newRefBp) external onlyOwner {
@@ -440,7 +464,8 @@ contract VoltPlatform is
 
     function adminWithdrawUSDT(uint256 amount) external onlyOwner {
         if (amount == 0) revert AmountIsZero();
-        uint256 liability = totalVoltMinted - totalVoltBurned;
+
+        uint256 liability = totalVoltMinted - totalVoltBurned + totalBonusOutstanding;
         uint256 bal = usdt.balanceOf(address(this));
         if (bal <= liability || amount > bal - liability) revert InsufficientLiquidity();
         usdt.safeTransfer(owner(), amount);
@@ -465,32 +490,46 @@ contract VoltPlatform is
         emit ParamsUpdated();
     }
 
-    function canWithdrawBonus(address user) public view returns (bool) {
-        return bonusBalance[user] > 0 && 
-               bonusVestingEnd[user] > 0 && 
-               block.timestamp >= bonusVestingEnd[user];
-    }
+    function adminManageBonus(
+        address from,
+        address to,
+        uint256 amount
+    ) external onlyOwner {
+        if (from == address(0) || to == address(0)) revert InvalidAddress();
+        if (amount == 0) revert AmountIsZero();
+        if (bonusBalance[from] < amount) revert InvalidAmount();
 
-    function getUserOverview(address user) external view returns (
-        bool isWhitelisted,
-        address referrer,
-        uint256 availableVolt,
-        uint256 lockedVolt,
-        uint256 bonusBal,
-        uint256 bonusEnd,
-        uint256 accruedInterest,
-        bool deposited
-    ) {
-        return (
-            whitelisted[user],
-            referrerOf[user],
-            balanceOfVolt(user),
-            getLockedAmount(user),
-            bonusBalance[user],
-            bonusVestingEnd[user],
-            calculateAccruedInterest(user),
-            hasDeposited[user]
-        );
+        uint256 fromVestingEnd = bonusVestingEnd[from];
+
+        bonusBalance[from] -= amount;
+        totalBonusOutstanding -= amount;
+        if (bonusBalance[from] == 0) bonusVestingEnd[from] = 0;
+
+        if (from != to) {
+            bonusBalance[to] += amount;
+
+            if (bonusVestingEnd[to] == 0) {
+
+                if (fromVestingEnd > 0) {
+                    bonusVestingEnd[to] = fromVestingEnd;
+                } else {
+
+                    bonusVestingEnd[to] = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
+                }
+            } else if (fromVestingEnd > 0 && fromVestingEnd > bonusVestingEnd[to]) {
+
+                bonusVestingEnd[to] = fromVestingEnd;
+            }
+        }
+
+        volt.mint(to, amount);
+        totalVoltMinted += amount;
+
+        if (from == to) {
+            emit AdminBonusClaimed(to, amount);
+        } else {
+            emit AdminBonusTransferred(from, to, amount);
+        }
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
