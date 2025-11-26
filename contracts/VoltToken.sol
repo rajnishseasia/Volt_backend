@@ -24,6 +24,10 @@ contract VoltToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, UUPSU
         __UUPSUpgradeable_init();
     }
 
+    function decimals() public pure override returns (uint8) {
+        return 6; 
+    }
+
     function setPlatform(address _platform) external onlyOwner {
         require(_platform != address(0), "zero addr");
         platform = _platform;

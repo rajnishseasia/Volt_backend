@@ -29,6 +29,7 @@ contract VoltPlatform is
     uint256 public constant YEAR_DAYS        = 365;
     uint256 public constant BP               = 10_000;
     uint256 public constant FIVE_YEARS_DAYS  = 5 * 365;
+    uint256 public constant BONUS_VESTING_PERIOD = 5 minutes; // 5 minutes for testing
     uint256 public constant BONUS_CAP_USDT   = 10_000 * 1e6;
     uint256 public constant ONE_USDT         = 1e6;
 
@@ -97,13 +98,11 @@ contract VoltPlatform is
     event ReferralBonusPaid(address indexed to, uint256 level, uint256 amount);
     event Deposited(address indexed user, uint256 usdtAmount, uint256 voltMinted, address referrer);
     event Locked(address indexed user, uint256 amount, uint256 durationDays, uint256 bonusAtUnlock);
-    event Unlocked(address indexed user, uint256 releasedAmount, uint256 bonusReleased);
+    event Unlocked(address indexed user, uint256 releasedAmount, uint256 bonusReleased, uint256 interestReleased);
     event InterestClaimed(address indexed user, uint256 interestVolt);
     event Withdrawn(address indexed user, uint256 voltBurned, uint256 usdtSent, uint256 feeBp, bool fullExit);
     event BonusGranted(address indexed user, uint256 bonusAmount, uint256 vestingEnd);
     event BonusClaimed(address indexed user, uint256 amount);
-    event AdminBonusClaimed(address indexed user, uint256 amount);
-    event AdminBonusTransferred(address indexed from, address indexed to, uint256 amount);
     event AdminDepositUSDT(uint256 amount);
     event AdminWithdrawUSDT(uint256 amount);
     event ParamsUpdated();
@@ -218,7 +217,7 @@ contract VoltPlatform is
             if (cappedBonus > 0) {
                 totalBonusOutstanding += cappedBonus;
                 bonusBalance[msg.sender] += cappedBonus;
-                bonusVestingEnd[msg.sender] = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
+                bonusVestingEnd[msg.sender] = block.timestamp + BONUS_VESTING_PERIOD;
                 emit BonusGranted(msg.sender, cappedBonus, bonusVestingEnd[msg.sender]);
             }
         }
@@ -234,6 +233,7 @@ contract VoltPlatform is
 
         emit Deposited(msg.sender, amount, amount, finalReferrer);
     }
+    
 
     function lock(uint256 amount, uint256 durationDays) external nonReentrant whenNotPaused {
         _requireWhitelisted();                    
@@ -282,12 +282,28 @@ contract VoltPlatform is
         if (!L.active) revert InvalidAmount();
         if (block.timestamp < L.startTime + L.durationDays * ONE_DAY) revert NotVested();
 
-        uint256 release = L.amount + L.bonusAtUnlock;
+        uint256 lat = lastAccrualTime[msg.sender] == 0 ? block.timestamp : lastAccrualTime[msg.sender];
+        uint256 interestStart = lat > L.startTime ? lat : L.startTime;
+        uint256 lockEndTime = L.startTime + L.durationDays * ONE_DAY;
+        uint256 elapsed = lockEndTime > interestStart ? lockEndTime - interestStart : 0;
+        uint256 lockInterest = 0;
+        
+        if (L.aprBp > 0 && elapsed > 0) {
+            lockInterest = (L.amount * L.aprBp * elapsed) / (BP * YEAR_DAYS * ONE_DAY);
+        }
+
+        uint256 release = L.amount + L.bonusAtUnlock + lockInterest;
+        
         volt.mint(msg.sender, release);
         totalVoltMinted += release;
+        
+        if (lockEndTime > lat) {
+            lastAccrualTime[msg.sender] = lockEndTime;
+        }
+        
         L.active = false;
 
-        emit Unlocked(msg.sender, release, L.bonusAtUnlock);
+        emit Unlocked(msg.sender, release, L.bonusAtUnlock, lockInterest);
     }
 
     function claimInterest() external nonReentrant whenNotPaused {
@@ -300,21 +316,22 @@ contract VoltPlatform is
         emit InterestClaimed(msg.sender, interest);
     }
 
-    function claimAllVestedBonus() external nonReentrant whenNotPaused {
-        _requireWhitelisted();                    
-        if (bonusVestingEnd[msg.sender] == 0 || block.timestamp < bonusVestingEnd[msg.sender])
-            revert BonusStillLocked();
-        uint256 amount = bonusBalance[msg.sender];
+    function adminPayBonus(address user) external onlyOwner nonReentrant whenNotPaused {
+        if (user == address(0)) revert InvalidAddress();
+        uint256 amount = bonusBalance[user];
         if (amount == 0) revert NoBonusToClaim();
+        if (bonusVestingEnd[user] == 0 || block.timestamp < bonusVestingEnd[user])
+            revert BonusStillLocked();
 
-        bonusBalance[msg.sender] = 0;
-        bonusVestingEnd[msg.sender] = 0;
+        bonusBalance[user] = 0;
+        bonusVestingEnd[user] = 0;
         totalBonusOutstanding -= amount;
-        volt.mint(msg.sender, amount);
+        volt.mint(user, amount);
         totalVoltMinted += amount;
 
-        emit BonusClaimed(msg.sender, amount);
+        emit BonusClaimed(user, amount);
     }
+
 
     function withdrawUSDT(uint256 voltAmount, bool fullExit) external nonReentrant whenNotPaused {
         _requireWhitelisted();                     
@@ -346,7 +363,7 @@ contract VoltPlatform is
 
     function _payReferralBonus(address user, uint256 depositAmount) internal {
         address current = referrerOf[user];
-        uint256 newVestingEnd = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
+        uint256 newVestingEnd = block.timestamp + BONUS_VESTING_PERIOD;
         
         for (uint256 level = 0; level < 7 && current != address(0); ++level) {
 
@@ -490,47 +507,6 @@ contract VoltPlatform is
         emit ParamsUpdated();
     }
 
-    function adminManageBonus(
-        address from,
-        address to,
-        uint256 amount
-    ) external onlyOwner {
-        if (from == address(0) || to == address(0)) revert InvalidAddress();
-        if (amount == 0) revert AmountIsZero();
-        if (bonusBalance[from] < amount) revert InvalidAmount();
-
-        uint256 fromVestingEnd = bonusVestingEnd[from];
-
-        bonusBalance[from] -= amount;
-        totalBonusOutstanding -= amount;
-        if (bonusBalance[from] == 0) bonusVestingEnd[from] = 0;
-
-        if (from != to) {
-            bonusBalance[to] += amount;
-
-            if (bonusVestingEnd[to] == 0) {
-
-                if (fromVestingEnd > 0) {
-                    bonusVestingEnd[to] = fromVestingEnd;
-                } else {
-
-                    bonusVestingEnd[to] = block.timestamp + FIVE_YEARS_DAYS * ONE_DAY;
-                }
-            } else if (fromVestingEnd > 0 && fromVestingEnd > bonusVestingEnd[to]) {
-
-                bonusVestingEnd[to] = fromVestingEnd;
-            }
-        }
-
-        volt.mint(to, amount);
-        totalVoltMinted += amount;
-
-        if (from == to) {
-            emit AdminBonusClaimed(to, amount);
-        } else {
-            emit AdminBonusTransferred(from, to, amount);
-        }
-    }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
 }
