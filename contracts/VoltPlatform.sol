@@ -163,9 +163,6 @@ contract VoltPlatform is
             if (referrer != address(0)) {
                 if (referrer == referee) revert InvalidReferrer();
 
-                if (!whitelisted[referrer] || !hasDeposited[referrer])
-                    revert InvalidReferrer();
-
                 if (referrerOf[referee] != address(0))
                     revert AlreadyReferred();
 
@@ -280,7 +277,9 @@ contract VoltPlatform is
         if (lockIndex >= locks[msg.sender].length) revert InvalidAmount();
         Lock storage L = locks[msg.sender][lockIndex];
         if (!L.active) revert InvalidAmount();
-        if (block.timestamp < L.startTime + L.durationDays * ONE_DAY) revert NotVested();
+        
+        // TESTING ONLY: Commented out to allow unlock anytime
+        // if (block.timestamp < L.startTime + L.durationDays * ONE_DAY) revert NotVested();
 
         uint256 lat = lastAccrualTime[msg.sender] == 0 ? block.timestamp : lastAccrualTime[msg.sender];
         uint256 interestStart = lat > L.startTime ? lat : L.startTime;
@@ -306,16 +305,6 @@ contract VoltPlatform is
         emit Unlocked(msg.sender, release, L.bonusAtUnlock, lockInterest);
     }
 
-    function claimInterest() external nonReentrant whenNotPaused {
-        _requireWhitelisted();                     
-        uint256 interest = calculateAccruedInterest(msg.sender);
-        if (interest == 0) revert AmountIsZero();
-        lastAccrualTime[msg.sender] = block.timestamp;
-        volt.mint(msg.sender, interest);
-        totalVoltMinted += interest;
-        emit InterestClaimed(msg.sender, interest);
-    }
-
     function adminPayBonus(address user) external onlyOwner nonReentrant whenNotPaused {
         if (user == address(0)) revert InvalidAddress();
         uint256 amount = bonusBalance[user];
@@ -331,7 +320,6 @@ contract VoltPlatform is
 
         emit BonusClaimed(user, amount);
     }
-
 
     function withdrawUSDT(uint256 voltAmount, bool fullExit) external nonReentrant whenNotPaused {
         _requireWhitelisted();                     

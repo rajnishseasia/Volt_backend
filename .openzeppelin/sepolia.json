@@ -1,0 +1,1751 @@
+{
+  "manifestVersion": "3.2",
+  "proxies": [
+    {
+      "address": "0x80B6a863f367cdF494D668f772a3f105cb958e9c",
+      "txHash": "0x1172395916fa4d105c6bdf29d615f0740a2a881d83006975054591fe79d3da37",
+      "kind": "uups"
+    },
+    {
+      "address": "0xC46bd34BCfec7c8baeB4c8068eB9AF7f17D43808",
+      "txHash": "0x419ab435aa6f4867b61eead9a0e54a66100aea354890e7e283420f8387a89280",
+      "kind": "uups"
+    },
+    {
+      "address": "0x4f9A059f2e9361eF4b1c67b479e670C6ecC6DEd5",
+      "txHash": "0x56b81eac08a13083564cfb6e618e46d30285ed9714954d7bd77f2017ff725e0a",
+      "kind": "uups"
+    },
+    {
+      "address": "0x110d7269a46558a6689a9A792478f048DC2fBAD9",
+      "txHash": "0x4c8aa932b8f2e63c18f04cc96a4cf33e852ba1798c468d5e95119c21ad0c803c",
+      "kind": "uups"
+    },
+    {
+      "address": "0x0858AA42030D8B26287FB57dAD833ed60Bf40F7D",
+      "txHash": "0xb7c83345195a0d5c47dd34963ab1e0c041f04fdc5e66a0bb34cef1a1fc139fae",
+      "kind": "uups"
+    },
+    {
+      "address": "0xFd563975881612edEe4e79677d01d7A45ac74415",
+      "txHash": "0x30c17e2abe5fb0347022d04b7e840bb43d18ecf4d1315dbccb1b2fd32084a0b7",
+      "kind": "uups"
+    },
+    {
+      "address": "0xeb33cb0e385f20653646C80Bbc0e9212A9518459",
+      "txHash": "0x813544cb524d755b9bec31946601b0f46f5b3459289978de53e5988b49f46ed5",
+      "kind": "uups"
+    },
+    {
+      "address": "0x092f4a13CdE9A42C58d50b8be03a5ba049DFBfBC",
+      "txHash": "0xaf985cddc3338c282db400174e19f6ed3e5496ca7aa1e68eed7d2500484a569e",
+      "kind": "uups"
+    },
+    {
+      "address": "0xd776bFCffCDe870C7328c80023356061849218f7",
+      "txHash": "0xc241e5204c5718eb5464f73df9bec6a81335796913a46ae20c8feccd2b4fa48f",
+      "kind": "uups"
+    },
+    {
+      "address": "0x476cAC41cEd54f75577cc52C0CD24DE24E91B22E",
+      "txHash": "0x5cdcb8203251e947642f72c62f383675475def86bb22b851bc67232e479ca971",
+      "kind": "uups"
+    },
+    {
+      "address": "0x2273C857596166b993A77E0c2f806F0d0Ac4c1f6",
+      "txHash": "0xd8127970f79e591deb3a91f29489dd9624bfb70588b50922f5ad65dd1fc08c02",
+      "kind": "uups"
+    },
+    {
+      "address": "0x181dbC2bf6374d96cf4A6D1B8fF13B6E2c34EA79",
+      "txHash": "0xb9d2b032b9684b7beed6314ccc74079008de6a98a82e790e4e918192b0791f9f",
+      "kind": "uups"
+    }
+  ],
+  "impls": {
+    "78589b89b495716e6490e809a28d03ad052c81cdac54dcf6b505108f1dc8d54f": {
+      "address": "0x874b03f1B25847fA0f4452224102A1B600a969dA",
+      "txHash": "0xfa785d811a145d3071b487b5d39a7b47d07232f3957ee065d0df175fa8f32d1c",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "platform",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "VoltToken",
+            "src": "contracts\\VoltToken.sol:12"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ERC20": [
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_balances",
+              "type": "t_mapping(t_address,t_uint256)",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:33"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_allowances",
+              "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:35"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_totalSupply",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_name",
+              "type": "t_string_storage",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_symbol",
+              "type": "t_string_storage",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:40"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "8996ca1295f77289f0e6e217bf4389ec54a7be2ec8dadb2044e02e39b2791a5c": {
+      "address": "0xfA986F9a903dC890f2602D26b4CF0b5367b95905",
+      "txHash": "0xbc08fb418858ba260e297bbcfa344293bdfc11ccf67d9f562042551ffe515046",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "usdt",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IERC20)2888",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:40"
+          },
+          {
+            "label": "volt",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IVoltToken)3886",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:41"
+          },
+          {
+            "label": "baseApyBp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:43"
+          },
+          {
+            "label": "minWithdrawUSDT",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:44"
+          },
+          {
+            "label": "feeLt500Bp",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:45"
+          },
+          {
+            "label": "feeGte500Bp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:46"
+          },
+          {
+            "label": "whitelisted",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:48"
+          },
+          {
+            "label": "referrerOf",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:49"
+          },
+          {
+            "label": "hasDeposited",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:50"
+          },
+          {
+            "label": "refBp",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_array(t_uint256)7_storage",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:52"
+          },
+          {
+            "label": "totalVoltMinted",
+            "offset": 0,
+            "slot": "16",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:54"
+          },
+          {
+            "label": "totalVoltBurned",
+            "offset": 0,
+            "slot": "17",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:55"
+          },
+          {
+            "label": "totalBonusOutstanding",
+            "offset": 0,
+            "slot": "18",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:56"
+          },
+          {
+            "label": "bonusBalance",
+            "offset": 0,
+            "slot": "19",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:58"
+          },
+          {
+            "label": "bonusVestingEnd",
+            "offset": 0,
+            "slot": "20",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:59"
+          },
+          {
+            "label": "lastAccrualTime",
+            "offset": 0,
+            "slot": "21",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:60"
+          },
+          {
+            "label": "hasReceivedFirstDepositBonus",
+            "offset": 0,
+            "slot": "22",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:61"
+          },
+          {
+            "label": "locks",
+            "offset": 0,
+            "slot": "23",
+            "type": "t_mapping(t_address,t_array(t_struct(Lock)4009_storage)dyn_storage)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:72"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Lock)4009_storage)dyn_storage": {
+            "label": "struct VoltPlatform.Lock[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)7_storage": {
+            "label": "uint256[7]",
+            "numberOfBytes": "224"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)2888": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVoltToken)3886": {
+            "label": "contract IVoltToken",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(Lock)4009_storage)dyn_storage)": {
+            "label": "mapping(address => struct VoltPlatform.Lock[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Lock)4009_storage": {
+            "label": "struct VoltPlatform.Lock",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "durationDays",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "multiplierBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "aprBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusAtUnlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "active",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ReentrancyGuard": [
+            {
+              "contract": "ReentrancyGuardUpgradeable",
+              "label": "_status",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:43"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable2Step": [
+            {
+              "contract": "Ownable2StepUpgradeable",
+              "label": "_pendingOwner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\Ownable2StepUpgradeable.sol:29"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "00489e59d437641f4932b82e253f49dbeba31e068517f1da84a939525179ef9f": {
+      "address": "0x9c4d6F64889EaAdDb57F1842831c3Ca6262D1ef4",
+      "txHash": "0xe3cebe3c2ee03d7e86f4beff1b10e7090321844a19524c88be801889004d643f",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "usdt",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IERC20)2888",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:41"
+          },
+          {
+            "label": "volt",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IVoltToken)3886",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:42"
+          },
+          {
+            "label": "baseApyBp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:44"
+          },
+          {
+            "label": "minWithdrawUSDT",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:45"
+          },
+          {
+            "label": "feeLt500Bp",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:46"
+          },
+          {
+            "label": "feeGte500Bp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:47"
+          },
+          {
+            "label": "whitelisted",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:49"
+          },
+          {
+            "label": "referrerOf",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:50"
+          },
+          {
+            "label": "hasDeposited",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:51"
+          },
+          {
+            "label": "refBp",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_array(t_uint256)7_storage",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:53"
+          },
+          {
+            "label": "totalVoltMinted",
+            "offset": 0,
+            "slot": "16",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:55"
+          },
+          {
+            "label": "totalVoltBurned",
+            "offset": 0,
+            "slot": "17",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:56"
+          },
+          {
+            "label": "totalBonusOutstanding",
+            "offset": 0,
+            "slot": "18",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:57"
+          },
+          {
+            "label": "bonusBalance",
+            "offset": 0,
+            "slot": "19",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:59"
+          },
+          {
+            "label": "bonusVestingEnd",
+            "offset": 0,
+            "slot": "20",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:60"
+          },
+          {
+            "label": "lastAccrualTime",
+            "offset": 0,
+            "slot": "21",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:61"
+          },
+          {
+            "label": "hasReceivedFirstDepositBonus",
+            "offset": 0,
+            "slot": "22",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:62"
+          },
+          {
+            "label": "locks",
+            "offset": 0,
+            "slot": "23",
+            "type": "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:73"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Lock)4012_storage)dyn_storage": {
+            "label": "struct VoltPlatform.Lock[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)7_storage": {
+            "label": "uint256[7]",
+            "numberOfBytes": "224"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)2888": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVoltToken)3886": {
+            "label": "contract IVoltToken",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)": {
+            "label": "mapping(address => struct VoltPlatform.Lock[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Lock)4012_storage": {
+            "label": "struct VoltPlatform.Lock",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "durationDays",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "multiplierBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "aprBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusAtUnlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "active",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ReentrancyGuard": [
+            {
+              "contract": "ReentrancyGuardUpgradeable",
+              "label": "_status",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:43"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable2Step": [
+            {
+              "contract": "Ownable2StepUpgradeable",
+              "label": "_pendingOwner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\Ownable2StepUpgradeable.sol:29"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "89a93a8454eacf69022407d38fada9abcdd4708230fe4784128c4b326d2d63c1": {
+      "address": "0x5c80893ebd27bdE860e4b08ec84697394c29A0dd",
+      "txHash": "0x66461b80775a4913de75bd77c491ecc41a055352eaaacbf651edf9b62d7d6cbb",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "usdt",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IERC20)1619",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:41"
+          },
+          {
+            "label": "volt",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IVoltToken)2531",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:42"
+          },
+          {
+            "label": "baseApyBp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:44"
+          },
+          {
+            "label": "minWithdrawUSDT",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:45"
+          },
+          {
+            "label": "feeLt500Bp",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:46"
+          },
+          {
+            "label": "feeGte500Bp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:47"
+          },
+          {
+            "label": "whitelisted",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:49"
+          },
+          {
+            "label": "referrerOf",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:50"
+          },
+          {
+            "label": "hasDeposited",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:51"
+          },
+          {
+            "label": "refBp",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_array(t_uint256)7_storage",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:53"
+          },
+          {
+            "label": "totalVoltMinted",
+            "offset": 0,
+            "slot": "16",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:55"
+          },
+          {
+            "label": "totalVoltBurned",
+            "offset": 0,
+            "slot": "17",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:56"
+          },
+          {
+            "label": "totalBonusOutstanding",
+            "offset": 0,
+            "slot": "18",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:57"
+          },
+          {
+            "label": "bonusBalance",
+            "offset": 0,
+            "slot": "19",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:59"
+          },
+          {
+            "label": "bonusVestingEnd",
+            "offset": 0,
+            "slot": "20",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:60"
+          },
+          {
+            "label": "lastAccrualTime",
+            "offset": 0,
+            "slot": "21",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:61"
+          },
+          {
+            "label": "hasReceivedFirstDepositBonus",
+            "offset": 0,
+            "slot": "22",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:62"
+          },
+          {
+            "label": "locks",
+            "offset": 0,
+            "slot": "23",
+            "type": "t_mapping(t_address,t_array(t_struct(Lock)2657_storage)dyn_storage)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:73"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Lock)2657_storage)dyn_storage": {
+            "label": "struct VoltPlatform.Lock[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)7_storage": {
+            "label": "uint256[7]",
+            "numberOfBytes": "224"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)1619": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVoltToken)2531": {
+            "label": "contract IVoltToken",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(Lock)2657_storage)dyn_storage)": {
+            "label": "mapping(address => struct VoltPlatform.Lock[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Lock)2657_storage": {
+            "label": "struct VoltPlatform.Lock",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "durationDays",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "multiplierBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "aprBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusAtUnlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "active",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ReentrancyGuard": [
+            {
+              "contract": "ReentrancyGuardUpgradeable",
+              "label": "_status",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:43"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable2Step": [
+            {
+              "contract": "Ownable2StepUpgradeable",
+              "label": "_pendingOwner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\Ownable2StepUpgradeable.sol:29"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "af91cb9c65463a6cf133f0edff65a43762e8af35c646ebc3d087391ad9921c05": {
+      "address": "0x1E1EFBAF89B169313aB8EE13B2D2990a034cEa5C",
+      "txHash": "0x3ac0c966dc8a087a8f965205ce1ab0ccfcd20f109013ac55d7bc201da56f52fa",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "platform",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "VoltToken",
+            "src": "contracts\\VoltToken.sol:12"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+            "label": "mapping(address => mapping(address => uint256))"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ERC20": [
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_balances",
+              "type": "t_mapping(t_address,t_uint256)",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:33"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_allowances",
+              "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:35"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_totalSupply",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:37"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_name",
+              "type": "t_string_storage",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:39"
+            },
+            {
+              "contract": "ERC20Upgradeable",
+              "label": "_symbol",
+              "type": "t_string_storage",
+              "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol:40"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "284fa1c55a294f7c18ffc6aeb0378ad646c0f22af71e8de06419bbf7f44bba08": {
+      "address": "0xb0Ea4cA2B5E7ADaB1598A1a3552d622246F2Db6e",
+      "txHash": "0x4bbc6ac5de5b9423cba96dcda8c684c9e67a9597e97d2509c511ab3a19675658",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "usdt",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IERC20)2888",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:41"
+          },
+          {
+            "label": "volt",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IVoltToken)3886",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:42"
+          },
+          {
+            "label": "baseApyBp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:44"
+          },
+          {
+            "label": "minWithdrawUSDT",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:45"
+          },
+          {
+            "label": "feeLt500Bp",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:46"
+          },
+          {
+            "label": "feeGte500Bp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:47"
+          },
+          {
+            "label": "whitelisted",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:49"
+          },
+          {
+            "label": "referrerOf",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:50"
+          },
+          {
+            "label": "hasDeposited",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:51"
+          },
+          {
+            "label": "refBp",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_array(t_uint256)7_storage",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:53"
+          },
+          {
+            "label": "totalVoltMinted",
+            "offset": 0,
+            "slot": "16",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:55"
+          },
+          {
+            "label": "totalVoltBurned",
+            "offset": 0,
+            "slot": "17",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:56"
+          },
+          {
+            "label": "totalBonusOutstanding",
+            "offset": 0,
+            "slot": "18",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:57"
+          },
+          {
+            "label": "bonusBalance",
+            "offset": 0,
+            "slot": "19",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:59"
+          },
+          {
+            "label": "bonusVestingEnd",
+            "offset": 0,
+            "slot": "20",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:60"
+          },
+          {
+            "label": "lastAccrualTime",
+            "offset": 0,
+            "slot": "21",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:61"
+          },
+          {
+            "label": "hasReceivedFirstDepositBonus",
+            "offset": 0,
+            "slot": "22",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:62"
+          },
+          {
+            "label": "locks",
+            "offset": 0,
+            "slot": "23",
+            "type": "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:73"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Lock)4012_storage)dyn_storage": {
+            "label": "struct VoltPlatform.Lock[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)7_storage": {
+            "label": "uint256[7]",
+            "numberOfBytes": "224"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)2888": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVoltToken)3886": {
+            "label": "contract IVoltToken",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)": {
+            "label": "mapping(address => struct VoltPlatform.Lock[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Lock)4012_storage": {
+            "label": "struct VoltPlatform.Lock",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "durationDays",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "multiplierBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "aprBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusAtUnlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "active",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ReentrancyGuard": [
+            {
+              "contract": "ReentrancyGuardUpgradeable",
+              "label": "_status",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:43"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable2Step": [
+            {
+              "contract": "Ownable2StepUpgradeable",
+              "label": "_pendingOwner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\Ownable2StepUpgradeable.sol:29"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    },
+    "fb638a858ade52bb6178a94371e0aa6a1bc753b026fdaed3210fe1a3d9b98434": {
+      "address": "0xA625A98c38D7886baCF92229d9793C5Ddf0657A1",
+      "txHash": "0xab69f9f690a11374e9da8f42914f9882ee5e9d1077063a04e8c1ece4ec3cd6b4",
+      "layout": {
+        "solcVersion": "0.8.24",
+        "storage": [
+          {
+            "label": "usdt",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_contract(IERC20)2888",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:41"
+          },
+          {
+            "label": "volt",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IVoltToken)3886",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:42"
+          },
+          {
+            "label": "baseApyBp",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:44"
+          },
+          {
+            "label": "minWithdrawUSDT",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:45"
+          },
+          {
+            "label": "feeLt500Bp",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:46"
+          },
+          {
+            "label": "feeGte500Bp",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:47"
+          },
+          {
+            "label": "whitelisted",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:49"
+          },
+          {
+            "label": "referrerOf",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_address)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:50"
+          },
+          {
+            "label": "hasDeposited",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:51"
+          },
+          {
+            "label": "refBp",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_array(t_uint256)7_storage",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:53"
+          },
+          {
+            "label": "totalVoltMinted",
+            "offset": 0,
+            "slot": "16",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:55"
+          },
+          {
+            "label": "totalVoltBurned",
+            "offset": 0,
+            "slot": "17",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:56"
+          },
+          {
+            "label": "totalBonusOutstanding",
+            "offset": 0,
+            "slot": "18",
+            "type": "t_uint256",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:57"
+          },
+          {
+            "label": "bonusBalance",
+            "offset": 0,
+            "slot": "19",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:59"
+          },
+          {
+            "label": "bonusVestingEnd",
+            "offset": 0,
+            "slot": "20",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:60"
+          },
+          {
+            "label": "lastAccrualTime",
+            "offset": 0,
+            "slot": "21",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:61"
+          },
+          {
+            "label": "hasReceivedFirstDepositBonus",
+            "offset": 0,
+            "slot": "22",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:62"
+          },
+          {
+            "label": "locks",
+            "offset": 0,
+            "slot": "23",
+            "type": "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)",
+            "contract": "VoltPlatform",
+            "src": "contracts\\VoltPlatform.sol:73"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Lock)4012_storage)dyn_storage": {
+            "label": "struct VoltPlatform.Lock[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)7_storage": {
+            "label": "uint256[7]",
+            "numberOfBytes": "224"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_contract(IERC20)2888": {
+            "label": "contract IERC20",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVoltToken)3886": {
+            "label": "contract IVoltToken",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_struct(Lock)4012_storage)dyn_storage)": {
+            "label": "mapping(address => struct VoltPlatform.Lock[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Lock)4012_storage": {
+            "label": "struct VoltPlatform.Lock",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "startTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "durationDays",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "multiplierBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "aprBp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "bonusAtUnlock",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "active",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "6"
+              }
+            ],
+            "numberOfBytes": "224"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Pausable": [
+            {
+              "contract": "PausableUpgradeable",
+              "label": "_paused",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\PausableUpgradeable.sol:21"
+            }
+          ],
+          "erc7201:openzeppelin.storage.ReentrancyGuard": [
+            {
+              "contract": "ReentrancyGuardUpgradeable",
+              "label": "_status",
+              "type": "t_uint256",
+              "src": "@openzeppelin\\contracts-upgradeable\\utils\\ReentrancyGuardUpgradeable.sol:43"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable2Step": [
+            {
+              "contract": "Ownable2StepUpgradeable",
+              "label": "_pendingOwner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\Ownable2StepUpgradeable.sol:29"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

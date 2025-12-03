@@ -14,7 +14,7 @@ async function getImplementationAddress(proxyAddress) {
 async function main() {
   console.log("Starting verification process...\n");
 
-  const mockUSDTAddress = "0x07806142E534ebF805910A659e5bd1E85bE265E5";
+  const mockUSDTAddress = "0x3654aed5B44791cBB3b52d04435B2Ca5A8f40EB4";
   console.log("Verifying MockUSDT (regular contract)...");
   try {
     await run("verify:verify", {
@@ -30,7 +30,7 @@ async function main() {
     }
   }
 
-  const voltTokenProxyAddress = "0x34f3f67dF99a81eF7680B1E57522bd27286FA605";
+  const voltTokenProxyAddress = "0xd776bFCffCDe870C7328c80023356061849218f7";
   console.log("Verifying VoltToken (UUPS proxy)...");
   try {
     const voltTokenImplAddress = await getImplementationAddress(voltTokenProxyAddress);
@@ -49,14 +49,14 @@ async function main() {
     }
   }
 
-  const voltPlatformProxyAddress = "0x5874f8Df16C69e0Faa396Af090D532d6F9C0B09d";
+  const voltPlatformProxyAddress = "0x476cAC41cEd54f75577cc52C0CD24DE24E91B22E";
   console.log("Verifying VoltPlatform (UUPS proxy)...");
   try {
     const voltPlatformImplAddress = await getImplementationAddress(voltPlatformProxyAddress);
     console.log(`  Implementation address: ${voltPlatformImplAddress}`);
     
-    const usdtAddress = "0x07806142E534ebF805910A659e5bd1E85bE265E5";
-    const voltAddress = "0x34f3f67dF99a81eF7680B1E57522bd27286FA605";
+    const usdtAddress = "0x3654aed5B44791cBB3b52d04435B2Ca5A8f40EB4";
+    const voltAddress = "0xd776bFCffCDe870C7328c80023356061849218f7";
     
     const platformContract = await ethers.getContractAt("VoltPlatform", voltPlatformProxyAddress);
     const ownerAddress = await platformContract.owner();

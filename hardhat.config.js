@@ -1,16 +1,13 @@
 require("@openzeppelin/hardhat-upgrades");
 require("dotenv").config();
+require("@nomicfoundation/hardhat-verify");
 require("@nomicfoundation/hardhat-chai-matchers");
 require("@nomicfoundation/hardhat-network-helpers");
-
 require("@nomiclabs/hardhat-ethers");
 require("@typechain/hardhat");
-
 require("@typechain/ethers-v5");
 require("hardhat-gas-reporter");
-
 require("solidity-coverage");
-require("@nomicfoundation/hardhat-verify");
 
 module.exports = {
   solidity: {
